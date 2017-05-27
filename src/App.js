@@ -1,8 +1,18 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
+import '@blueprintjs/core/dist/blueprint.css';
 import './App.css';
+
 const electron = window.require('electron');
 const {dialog} = electron.remote;
+const {ipcRenderer} = electron;
+
+ipcRenderer.on('fslist', (event, arg) => {
+  console.log("event", event, arg);
+});
+
+console.log("sending request");
+ipcRenderer.send('fsreq', '');
 
 const openFile = () => {
   dialog.showOpenDialog({properties: ['openFile', 'openDirectory', 'multiSelections']});
@@ -12,14 +22,12 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React and Electron and Foreman and Other Stuff</h2>
-        </div>
-        <button onClick={openFile}>Open</button>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        <nav className="pt-navbar pt-dark">
+          <div className="pt-navbar-group pt-align-left">
+            <div className="pt-navbar-heading">Test System!</div>
+            <input className="pt-input" placeholder="Search..." type="text" />
+          </div>
+        </nav>
       </div>
     );
   }
